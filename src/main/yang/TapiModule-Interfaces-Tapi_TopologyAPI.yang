@@ -1,0 +1,163 @@
+module TapiModule-Interfaces-Tapi_TopologyAPI {
+    namespace "uri:onf:TapiModule-Interfaces-Tapi_TopologyAPI";
+    prefix TapiModule-Interfaces-Tapi_TopologyAPI;
+    import TapiModule-ObjectClasses {
+        prefix TapiModule-ObjectClasses;
+    }
+    import TapiModule-TypeDefinitions {
+        prefix TapiModule-TypeDefinitions;
+    }
+    revision 2016-04-14{}
+    rpc getTopologyDetails {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            container topology {
+                uses TapiModule-ObjectClasses:G_Tapi_Topology;
+            }
+        }
+    }
+    rpc getNodeDetails {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf nodeId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container nodeName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            container node {
+                uses TapiModule-ObjectClasses:G_Tapi_Node;
+            }
+        }
+    }
+    rpc getLinkList {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            list linkList {
+                ordered-by system;
+                uses TapiModule-ObjectClasses:G_Tapi_Link;
+            }
+        }
+    }
+    rpc getLinkDetails {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf linkId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container linkName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            container link {
+                uses TapiModule-ObjectClasses:G_Tapi_Link;
+            }
+        }
+    }
+    rpc getNodeEdgePointList {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf nodeId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container nodeName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            list nodeEdgePointList {
+                ordered-by system;
+                uses TapiModule-ObjectClasses:G_Tapi_NodeEdgePoint;
+            }
+        }
+    }
+    rpc getNodeEdgePointDetails {
+        input {
+            leaf topologyId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container topologyName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf nodeId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container nodeName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf nodeEPId {
+                type TapiModule-ObjectClasses:UniversalId;
+            }
+            container nodeEPName {
+                uses TapiModule-ObjectClasses:G_NameAndValue;
+            }
+            leaf-list layerProtocolNameList {
+                ordered-by system;
+                type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+                min-elements 1;
+            }
+        }
+        output {
+            container nodeEdgePoint {
+                uses TapiModule-ObjectClasses:G_Tapi_NodeEdgePoint;
+            }
+        }
+    }
+}

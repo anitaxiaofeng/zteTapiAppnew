@@ -1,0 +1,970 @@
+module TapiModule-ObjectClasses {
+    namespace "uri:onf:TapiModule-ObjectClasses";
+    prefix TapiModule-ObjectClasses;
+    import TapiModule-TypeDefinitions {
+        prefix TapiModule-TypeDefinitions;
+    }
+    revision 2016-04-14{}
+    typedef integer {
+        type int16;
+    }
+    list Tapi_Topology {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Topology;
+    }
+    grouping G_Tapi_Topology {
+        uses G_GlobalClass;
+        leaf-list _nodeRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Node/uuid";
+            }
+        }
+        leaf-list _linkRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Link/uuid";
+            }
+        }
+        leaf-list layerProtocolNameList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+            min-elements 1;
+        }
+    }
+    list G_Tapi_Context {
+        key 'uuid';
+        config true;
+        uses G_GlobalClass;
+        leaf _topologyRefList {
+            type leafref {
+                path "/Tapi_Topology/uuid";
+            }
+            description "Topology引用列表";
+        }
+    }
+    list Tapi_Node {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Node;
+    }
+    grouping G_Tapi_Node {
+        uses G_GlobalClass;
+        leaf _encapTopologyRef {
+            type leafref {
+                path "/Tapi_Topology/uuid";
+            }
+        }
+        leaf-list _nodeEdgePointRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+        }
+        leaf-list _serviceRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Service/uuid";
+            }
+        }
+        leaf-list _conectionRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Connection/uuid";
+            }
+        }
+        leaf-list layerProtocolNameList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+            config false;
+            min-elements 1;
+        }
+        container _riskParameter_Pac {
+            config true;
+            uses G_RiskParameter_Pac;
+        }
+        container _transferCost_Pac {
+            config true;
+            uses G_TransferCost_Pac;
+        }
+        container _transferTiming_Pac {
+            config true;
+            uses G_TransferTiming_Pac;
+        }
+        container _transferCapacity_Pac {
+            config true;
+            uses G_TransferCapacity_Pac;
+        }
+        container _transferIntegrity_Pac {
+            config true;
+            uses G_TransferIntegrity_Pac;
+        }
+        container _validation_Pac {
+            config true;
+            uses G_Validation_Pac;
+        }
+    }
+    list Tapi_Link {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Link;
+    }
+    grouping G_Tapi_Link {
+        uses G_GlobalClass;
+        leaf-list _nodeRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Node/uuid";
+            }
+            min-elements 2;
+        }
+        list _linkPortList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_LinkPort;
+            min-elements 2;
+        }
+        leaf-list layerProtocolNameList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+            config false;
+            min-elements 1;
+        }
+        leaf linkDirection {
+            type TapiModule-TypeDefinitions:Tapi_LinkDirection;
+            description "The directionality of the Link. 
+                Is applicable to simple Links where all LinkEnds are BIDIRECTIONAL (the Link will be BIDIRECTIONAL) or UNIDIRECTIONAL (the Link will be UNIDIRECTIONAL). 
+                Is not present in more complex cases.";
+        }
+        container _riskParameter_Pac {
+            config true;
+            uses G_RiskParameter_Pac;
+        }
+        container _transferCost_Pac {
+            config true;
+            uses G_TransferCost_Pac;
+        }
+        container _transferTiming_Pac {
+            config true;
+            uses G_TransferTiming_Pac;
+        }
+        container _transferCapacity_Pac {
+            config true;
+            uses G_TransferCapacity_Pac;
+        }
+        container _transferIntegrity_Pac {
+            config true;
+            uses G_TransferIntegrity_Pac;
+        }
+        container _validation_Pac {
+            config true;
+            uses G_Validation_Pac;
+        }
+    }
+    grouping G_Tapi_LinkPort {
+        uses G_LocalClass;
+        leaf-list _nodeEdgePointRefList {
+            description "当LinkPort为双向，LTP为单向时，LinkPort可与一个或多个LTP关联。";
+            ordered-by system;
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+        }
+        leaf role {
+            type TapiModule-TypeDefinitions:Tapi_Role;
+        }
+        leaf offNetworkAddress {
+            type string;
+            description "采用自由格式表示位于控制域之外的一个链路端点。该属性可以是一个外部的标识/名称/地址，或者是一个在域间共享的引用信息。当控制器无法确定引用的NodeEdgePoint时，使用该属性。";
+        }
+        leaf linkPortDirection {
+            type TapiModule-TypeDefinitions:Tapi_PortDirection;
+        }
+    }
+    list Tapi_NodeEdgePoint {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_NodeEdgePoint;
+    }
+    grouping G_Tapi_NodeEdgePoint {
+        uses G_GlobalClass;
+        leaf terminationDirection {
+            type TapiModule-TypeDefinitions:Tapi_TerminationDirection;
+        }
+        leaf-list _serviceEPRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_ServiceEndPoint/uuid";
+            }
+        }
+        leaf-list _clientConnEPRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Connection/connectionPortList/connectionEndPoint/uuid";
+            }
+        }
+        leaf _serverConnEPRef {
+            type leafref {
+                path "/Tapi_Connection/connectionPortList/connectionEndPoint/uuid";
+            }
+        }
+        list _lpList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_LayerProtocol;
+            min-elements 1;
+        }
+        leaf-list physicalPortReference {
+            ordered-by system;
+            type string;
+        }
+    }
+    list Tapi_ServiceEndPoint {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_ServiceEndPoint;
+    }
+    grouping G_Tapi_ServiceEndPoint {
+        uses G_GlobalClass;
+        leaf terminationDirection {
+            type TapiModule-TypeDefinitions:Tapi_TerminationDirection;
+        }
+        leaf-list _nodeEdgePointRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+        }
+        list _lpList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_LayerProtocol;
+            min-elements 1;
+        }
+        leaf-list physicalPortReference {
+            ordered-by system;
+            type string;
+        }
+    }
+    grouping G_Tapi_ConnectionEndPoint {
+        uses G_GlobalClass;
+        leaf terminationDirection {
+            type TapiModule-TypeDefinitions:Tapi_TerminationDirection;
+        }
+        list _lpList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_LayerProtocol;
+            min-elements 1;
+        }
+        leaf _serverNodeEPRef {
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+        }
+        leaf-list _clientNodeEPRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+        }
+    }
+    grouping G_Tapi_LayerProtocol {
+        uses G_LocalClass;
+        leaf layerProtocolName {
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+        }
+        leaf configuredClientCapacity {
+            type string;
+        }
+        container ODU_NEP_Pac {
+            config true;
+            uses G_Tapi_ODUNodeEP_Pac;
+        }
+        container ODU_CEP_Pac {
+            config true;
+            uses G_Tapi_ODUConnEP_Pac;
+        }
+        container ETH_NEP_Pac {
+            config true;
+            uses G_Tapi_ETHNodeEP_Pac;
+        }
+        container ETH_CEP_Pac {
+            config true;
+            uses G_Tapi_ETHConnEP_Pac;
+        }
+    }
+    list Tapi_Connection {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Connection;
+    }
+    grouping G_Tapi_Connection {
+        uses G_GlobalClass;
+        leaf serviceType {
+            type TapiModule-TypeDefinitions:Tapi_ServiceType;
+        }
+        leaf connectionType {
+            type TapiModule-TypeDefinitions:Tapi_ConnectionType;
+        }
+        leaf connectionDirection {
+            type TapiModule-TypeDefinitions:Tapi_ConnectionDirection;
+        }
+        leaf capacity {
+            type integer;
+            description "连接带宽。
+                对于ODU层，代表1.25G 时隙的数量。
+                对于ETH层，代表单位为Mbps的带宽。";
+        }
+        list connectionPortList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_ConnectionPort;
+            min-elements 2;
+        }
+        list routeList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_Route;
+        }
+        leaf layerProtocolName {
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+        }
+        leaf _parentNodeRef {
+            type leafref {
+                path "/Tapi_Node/uuid";
+            }
+        }
+        leaf-list connectionSignalType {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_Signal_type;
+        }
+        container protectionType {
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_ProtectionType;
+        }
+        container routingConstraints {
+            config true;
+            uses G_Tapi_Constraints;
+        }
+    }
+    grouping G_Tapi_ConnectionPort {
+        uses G_LocalClass;
+        container connectionEndPoint {
+            config true;
+            uses G_Tapi_ConnectionEndPoint;
+        }
+        leaf portDirection {
+            type TapiModule-TypeDefinitions:Tapi_PortDirection;
+        }
+        leaf role {
+            type TapiModule-TypeDefinitions:Tapi_Role;
+        }
+    }
+    grouping G_Tapi_Route {
+        uses G_LocalClass;
+        leaf-list _lowerFcRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Connection/uuid";
+            }
+            min-elements 1;
+        }
+    }
+    list Tapi_Path {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Path;
+    }
+    grouping G_Tapi_Path {
+        uses G_GlobalClass;
+        list pathElementList {
+            description "路由经过的NodeEndPoint Id列表。本属性主要用于路由计算API返回计算的详细路由信息，此时低层连接尚未建立。可以表达严格的路由，也可以表达松散的路由。";
+            key '_nodeRef _linkPortRef _linkRef';
+            config true;
+            ordered-by system;
+            uses G_Tapi_pathElement;
+            min-elements 1;
+        }
+        leaf pathCost {
+            type integer;
+            description "路径实际的代价";
+        }
+        leaf pathLatency {
+            type integer;
+            description "路径实际的时延";
+        }
+    }
+    list Tapi_Service {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Service;
+    }
+    grouping G_Tapi_Service {
+        uses G_GlobalClass;
+        leaf serviceType {
+            type TapiModule-TypeDefinitions:Tapi_ServiceType;
+        }
+        leaf serviceDirection {
+            type TapiModule-TypeDefinitions:Tapi_ConnectionDirection;
+        }
+        leaf layerProtocolName {
+            type TapiModule-TypeDefinitions:Tapi_LayerProtocolName;
+        }
+        leaf capacity {
+            type integer;
+        }
+        leaf serviceLevel {
+            type string;
+            description "业务等级。业务等级和保护类型的对应关系待定。";
+        }
+        list _servicePortList {
+            description "ServicePort列表，包含业务端点的详细信息。";
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_ServicePort;
+            min-elements 2;
+        }
+        leaf-list _connectionRefList {
+            ordered-by system;
+            type leafref {
+                path "/Tapi_Connection/uuid";
+            }
+        }
+        leaf startTime {
+            type string;
+            description "业务建立时间: “年-月-日 时:分:秒” ，即“yyyy-MM-dd HH:mm:ss”";
+        }
+        leaf endTime {
+            type string;
+            description "业务结束时间: “年-月-日 时:分:秒” ，即“yyyy-MM-dd HH:mm:ss”";
+        }
+        container routingConstraints {
+            config true;
+            uses G_Tapi_Constraints;
+        }
+    }
+    grouping G_Tapi_ServicePort {
+        uses G_LocalClass;
+        leaf _serviceEndPointRef {
+            type leafref {
+                path "/Tapi_ServiceEndPoint/uuid";
+            }
+        }
+        leaf _connectionEndPointRef {
+            type leafref {
+                path "/Tapi_Connection/connectionPortList/connectionEndPoint/uuid";
+            }
+        }
+        leaf role {
+            type TapiModule-TypeDefinitions:Tapi_Role;
+        }
+    }
+    grouping G_Tapi_ODUNodeEP_Pac {
+        leaf ODUCapacity {
+            type integer;
+        }
+        leaf-list payLoadTypeList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:payLoadType;
+            min-elements 1;
+        }
+        leaf adaptationTypeList {
+            type TapiModule-TypeDefinitions:Tapi_AdaptationType;
+        }
+        leaf-list switchCapabilityList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_Signal_type;
+        }
+        leaf ts_detail {
+            type string;
+            description "该端口对应的时隙占用情况。该属性采用“SS-BB”的形式。该形式用于表明该端口资源所对应的特定资源。SS 表示bit位的个数，采用10进制；BB是一个bit表，表示每一个时隙的具体信息（从HSB开始， 1 表示该时隙占用，0 表示该时隙可用），采用16进制，bit位不足8比特倍数低位补0。举例：10G OTU2中的第一个ODU0时隙被占用表示为8-80。";
+        }
+    }
+    grouping G_Tapi_ETHNodeEP_Pac {
+        leaf totalPotentialETHCapacity {
+            type integer;
+        }
+        leaf availableETHCapacity {
+            type integer;
+        }
+        leaf-list switchCapabilityList {
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_SwitchCapability;
+        }
+        list vlan_List {
+            key 'vlanType';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_Tapi_Vlan;
+        }
+    }
+    grouping G_Tapi_ODUConnEP_Pac {
+        leaf payLoadType {
+            type TapiModule-TypeDefinitions:payLoadType;
+        }
+        leaf adaptationType {
+            type TapiModule-TypeDefinitions:Tapi_AdaptationType;
+        }
+        leaf ts_detail {
+            type string;
+            description "该端口对应的时隙占用情况。该属性采用“SS-BB”的形式。该形式用于表明该端口资源所对应的特定资源。SS 表示bit位的个数，采用10进制；BB是一个bit表，表示每一个时隙的具体信息（从HSB开始， 1 表示该时隙占用，0 表示该时隙可用），采用16进制，bit位不足8比特倍数低位补0。举例：10G OTU2中的第一个ODU0时隙被占用表示为8-80。";
+        }
+        leaf currentNumberOfTributarySlots {
+            type integer;
+            description "这一属性只用在表示ODUflex(GFP)中ODU0的个数。它代表当前分配给HO-ODU服务层中的ODUflex(GFP)连接的辅助时隙的数量。这一参数的值决定了ODUflex 连接的比特率。
+                这一属性的上界依赖于HO-ODUk 服务层。 当ODUflex(GFP)连接最初创建，这代表用于连接的实际辅助时隙数。当一个ODUflex（GFP）连接在进行调整操作，这个属性反映所需的（调整的）辅助时隙数，前提是经过以下阶段（见G.7044[5]）：
+                - Bandwidth Resize（BWR）阶段完成后（在带宽提高的情况下）
+                - 在ODUflex调整操作的Link Connection Resize(LCR)阶段(在带宽减少的情况下)之后。
+                这个属性只适用于ODUflex(CBR)连接。";
+        }
+    }
+    grouping G_Tapi_ETHConnEP_Pac {
+        leaf vlanType {
+            type TapiModule-TypeDefinitions:Tapi_VlanType;
+            description "Vlan类型";
+        }
+        list vlanList {
+            description "VlanSpec列表";
+            key 'vlanId';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_Tapi_VlanSpec;
+            min-elements 1;
+        }
+        container trafficConditioning {
+            description "流量管理";
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_TrafficConditioningConfiguration;
+        }
+        leaf _accessAction {
+            type TapiModule-TypeDefinitions:Tapi_AccessAction;
+            description "流在接口上的动作
+                1: 保持(Keep)
+                2: 添加(Push)
+                3: 剥离(Pop)
+                4: 替换(Swap)
+                ";
+        }
+        leaf isMacAdressLearningEnabled {
+            type boolean;
+            description "MAC学习的禁止和使能
+                0：禁止
+                1：使能
+                ";
+        }
+        leaf macAdressLearningRange {
+            type integer;
+            description "MAC地址学习数目";
+        }
+        leaf macAdressAgeingTime {
+            type integer;
+            description "MAC地址老化时间
+                单位为s
+                ";
+        }
+        leaf broadcastFilteringMode {
+            type TapiModule-TypeDefinitions:Tapi_BroadcastFilteringMode;
+            description "指示限速还是抑制
+                Pass：1
+                Block：0
+                ";
+        }
+        leaf-list broadcastFilteringTypeList {
+            description "指示广播风暴的报文类型：未知单播、广播、组播
+                未知单播：2
+                广播：1
+                组播：0
+                ";
+            ordered-by system;
+            type TapiModule-TypeDefinitions:Tapi_BroadcastType;
+        }
+        container broadcastFilteringTraffic {
+            description "报文过滤配置";
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_TrafficConditioningConfiguration;
+        }
+    }
+    list Tapi_Notification {
+        key 'uuid';
+        config true;
+        ordered-by system;
+        uses G_Tapi_Notification;
+    }
+    grouping G_Tapi_Notification {
+        uses G_GlobalClass;
+        leaf notificationType {
+            type TapiModule-TypeDefinitions:Tapi_NotificationType;
+        }
+        leaf objectType {
+            type TapiModule-TypeDefinitions:Tapi_ObjectType;
+        }
+        leaf objectInstanceIdentifier {
+            type string;
+            description "通知关联的对象uuid";
+        }
+        leaf-list objectInstanceNameList {
+            description "对象名称列表globalClass::nameList";
+            ordered-by system;
+            type string;
+        }
+        leaf eventTimeStamp {
+            type string;
+        }
+        leaf sourceIndicator {
+            type TapiModule-TypeDefinitions:Tapi_SourceIndicator;
+        }
+        list stateChangeList {
+            key 'stateName';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_Tapi_StateChange;
+            min-elements 1;
+        }
+        leaf additionalInformation {
+            type string;
+        }
+    }
+    grouping G_TransferCost_Pac {
+        list costCharacteristicList {
+            description "The list of costs where each cost relates to some aspect of the TopologicalEntity.";
+            key 'costName';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_CostCharacteristics;
+            min-elements 1;
+        }
+    }
+    grouping G_RiskParameter_Pac {
+        list riskCharacteristicList {
+            description "A list of risk characteristics for consideration in an analysis of shared risk. Each element of the list represents a specific risk consideration.";
+            key 'riskCharacteristicName';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_RiskCharacteristic;
+            min-elements 1;
+        }
+    }
+    grouping G_TransferTiming_Pac {
+        leaf fixedLatencyCharacteristic {
+            type string;
+            description "A TopologicalEntity suffers delay caused by the realization of the servers (e.g. distance related; FEC encoding etc.) along with some client specific processing. This is the total average latency effect of the TopologicalEntity";
+        }
+        leaf jitterCharacteristic {
+            type string;
+            description "High frequency deviation from true periodicity of a signal and therefore a small high rate of change of transfer latency.
+                Applies to TDM systems (and not packet).";
+        }
+        leaf wanderCharacteristic {
+            type string;
+            description "Low frequency deviation from true periodicity of a signal and therefore a small low rate of change of transfer latency.
+                Applies to TDM systems (and not packet).";
+        }
+        list queuingLatencyList {
+            description "The effect on the latency of a queuing process. This only has significant effect for packet based systems and has a complex characteristic.";
+            key 'trafficProperty';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_QueuingLatency;
+        }
+    }
+    grouping G_TransferIntegrity_Pac {
+        leaf errorCharacteristic {
+            type string;
+            description "Describes the degree to which the signal propagated can be errored. 
+                Applies to TDM systems as the errored signal will be propagated and not packet as errored packets will be discarded.";
+        }
+        leaf lossCharacteristic {
+            type string;
+            description "Describes the acceptable characteristic of lost packets where loss may result from discard due to errors or overflow.
+                Applies to packet systems and not TDM (as for TDM errored signals are propagated unless grossly errored and overflow/underflow turns into timing slips).";
+        }
+        leaf repeatDeliveryCharacteristic {
+            type string;
+            description "Primarily applies to packet systems where a packet may be delivered more than once (in fault recovery for example). 
+                It can also apply to TDM where several frames may be received twice due to switching in a system with a large differential propagation delay.";
+        }
+        leaf deliveryOrderCharacteristic {
+            type string;
+            description "Describes the degree to which packets will be delivered out of sequence.
+                Does not apply to TDM as the TDM protocols maintain strict order.";
+        }
+        leaf unavailableTimeCharacteristic {
+            type string;
+            description "Describes the duration for which there may be no valid signal propagated.";
+        }
+        leaf serverIntegrityProcessCharacteristic {
+            type string;
+            description "Describes the effect of any server integrity enhancement process on the characteristics of the TopologicalEntity.";
+        }
+    }
+    grouping G_TransferCapacity_Pac {
+        container totalPotentialCapacity {
+            description "An optimistic view of the capacity of the TopologicalEntity assuming that any shared capacity is available to be taken.";
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_Capacity;
+        }
+        container availableCapacity {
+            description "Capacity available to be assigned.";
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_Capacity;
+        }
+        container capacityAssignedToUserView {
+            description "Capacity already assigned";
+            config true;
+            uses TapiModule-TypeDefinitions:G_Tapi_Capacity;
+        }
+        leaf capacityInteractionAlgorithm {
+            type string;
+            description "A reference to an algorithm that describes how various chunks of allocated capacity interact (e.g. when shared)";
+        }
+    }
+    grouping G_Validation_Pac {
+        list validationMechanismList {
+            description "Provides details of the specific validation mechanism(s) used to confirm the presence of an intended topologicalEntity.";
+            key 'validationMechanism';
+            config true;
+            ordered-by system;
+            uses TapiModule-TypeDefinitions:G_ValidationMechanism;
+            min-elements 1;
+        }
+    }
+    grouping G_LayerProtocolTransition_Pac {
+        leaf-list transitionedLayerProtocolList {
+            description "Provides the ordered structure of layer protocol transitions encapsulated in the TopologicalEntity. The ordering relates to the LinkPort role.";
+            ordered-by system;
+            type string;
+            min-elements 1;
+        }
+        leaf-list _ltpRefList {
+            description "Lists the LTPs that define the layer protocol transition of the transitional link.";
+            ordered-by system;
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+            min-elements 1;
+        }
+    }
+    grouping G_Tapi_Constraints {
+        container commonConstraints {
+            config true;
+            uses G_Tapi_commonConstraints;
+        }
+        list pathConstraintsList {
+            key 'localId';
+            config true;
+            ordered-by system;
+            uses G_Tapi_pathConstraints;
+        }
+    }
+    grouping G_Tapi_pathConstraints {
+        leaf localId {
+            type string;
+        }
+        leaf pathProtType {
+            type TapiModule-TypeDefinitions:Tapi_PathProtType;
+        }
+        leaf pathCost {
+            type integer;
+        }
+        leaf pathLatency {
+            type integer;
+        }
+        list includePath {
+            key '_nodeRef _linkPortRef _linkRef';
+            config true;
+            ordered-by system;
+            uses G_Tapi_pathElement;
+            min-elements 1;
+        }
+        list excludePath {
+            key '_nodeRef _linkPortRef _linkRef';
+            config true;
+            ordered-by system;
+            uses G_Tapi_pathElement;
+            min-elements 1;
+        }
+        list explicitPath {
+            key '_nodeRef _linkPortRef _linkRef';
+            config true;
+            ordered-by system;
+            uses G_Tapi_pathElement;
+            min-elements 1;
+        }
+    }
+    grouping G_Tapi_commonConstraints {
+        leaf routeObjectiveFunction {
+            type TapiModule-TypeDefinitions:Tapi_RouteObjectiveFunction;
+        }
+        leaf latency {
+            type integer;
+            description "允许的最大时延（以ms为单位）。0表示无限制。";
+        }
+        leaf cost {
+            type integer;
+        }
+        leaf diversityPolicy {
+            type TapiModule-TypeDefinitions:Tapi_DiversityPolicy;
+        }
+        leaf coRoutingList {
+            type leafref {
+                path "/Tapi_Connection/uuid";
+            }
+        }
+        leaf disjointRoutingList {
+            type leafref {
+                path "/Tapi_Connection/uuid";
+            }
+        }
+    }
+    grouping G_GlobalClass {
+        list localIdList {
+            description "An identifier that is unique in the context of some scope that is less than the global scope.
+                (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)";
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+        }
+        leaf uuid {
+            type UniversalId;
+            description "UUID: An identifier that is universally unique
+                (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself globally unique, and immutable. An identifier carries no semantics with respect to the purpose or state of the entity)";
+        }
+        list Name {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+            min-elements 1;
+        }
+        list Label {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+        }
+        list Extension {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+        }
+        container State_Pac {
+            config true;
+            uses G_State_Pac;
+        }
+    }
+    grouping G_LocalClass {
+        list localIdList {
+            description "An identifier that is unique in the context of some scope that is less than the global scope.
+                (consider in the context of Identifier: A property of an entity/role with a value that is unique within an identifier space, where the identifier space is itself unique, and immutable. The identifier therefore represents the identity of the entity/role. An identifier carries no semantics with respect to the purpose of the entity.)";
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+            min-elements 1;
+        }
+        leaf localId {
+            type string;
+        }
+        list Name {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+            min-elements 1;
+        }
+        list Label {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+        }
+        list Extension {
+            key 'valueName';
+            config true;
+            ordered-by system;
+            uses G_NameAndValue;
+        }
+        container State_Pac {
+            config true;
+            uses G_State_Pac;
+        }
+    }
+    grouping G_State_Pac {
+        leaf operationalState {
+            type TapiModule-TypeDefinitions:OperationalState;
+            config false;
+            description "The operational state is used to indicate whether or not the resource is installed and working";
+        }
+        leaf administrativeControl {
+            type TapiModule-TypeDefinitions:AdministrativeControl;
+            description "The administrativeControl state provides control of the availability of specific resources without modification to the provisioning of those resources.
+                The value is the current control target. The actual administrativeState may or may not be at target.";
+        }
+        leaf adminsatratveState {
+            type TapiModule-TypeDefinitions:AdministrativeState;
+            config false;
+            description "Shows whether or not the client has permission to use or has a prohibition against using the resource.
+                The administrative state expresses usage permissions for specific resources without modification to the provisioning of those resources.";
+        }
+        leaf lifecycleState {
+            type TapiModule-TypeDefinitions:LifecycleState;
+            description "Used to track the planned deployment, allocation to clients and withdrawal of resources. ";
+        }
+    }
+    grouping G_NameAndValue {
+        leaf valueName {
+            type string;
+            description "The name of the value. The value need not have a name.";
+        }
+        leaf value {
+            type string;
+            description "The value";
+        }
+        leaf _localClassRef {
+            type string;
+            description "The scope of the name uniqueness";
+        }
+    }
+    typedef UniversalId {
+        type string;
+    }
+    grouping G_Tapi_pathElement {
+        leaf _nodeRef {
+            type leafref {
+                path "/Tapi_Node/uuid";
+            }
+            description "路径中的节点索引";
+        }
+        leaf _linkPortRef {
+            type leafref {
+                path "/Tapi_NodeEdgePoint/uuid";
+            }
+            description "路径中的端口索引";
+        }
+        leaf _linkRef {
+            type leafref {
+                path "/Tapi_Link/uuid";
+            }
+            description "路径中的链路索引";
+        }
+    }
+}

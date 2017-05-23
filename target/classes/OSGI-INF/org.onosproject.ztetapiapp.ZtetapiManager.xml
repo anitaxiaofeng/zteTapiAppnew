@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.onosproject.ztetapiapp.ZtetapiManager" activate="activate" deactivate="deactivate">
+    <implementation class="org.onosproject.ztetapiapp.ZtetapiManager"/>
+    <service servicefactory="false">
+        <provide interface="org.onosproject.yang.gen.v1.uri.onf.tapimodule.interfaces.tapi.topologyapi.rev20160414.TapiModuleInterfacesTapiTopologyApiService"/>
+    </service>
+    <property name="service.pid" value="org.onosproject.ztetapiapp.ZtetapiManager"/>
+    <reference name="coreService" interface="org.onosproject.core.CoreService" cardinality="1..1" policy="static" bind="bindCoreService" unbind="unbindCoreService"/>
+    <reference name="ymsService" interface="org.onosproject.yms.ymsm.YmsService" cardinality="1..1" policy="static" bind="bindYmsService" unbind="unbindYmsService"/>
+    <reference name="deviceService" interface="org.onosproject.net.device.DeviceService" cardinality="1..1" policy="static" bind="bindDeviceService" unbind="unbindDeviceService"/>
+    <reference name="linkService" interface="org.onosproject.net.link.LinkService" cardinality="1..1" policy="static" bind="bindLinkService" unbind="unbindLinkService"/>
+</scr:component>

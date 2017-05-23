@@ -1,0 +1,442 @@
+module TapiModule-TypeDefinitions {
+    namespace "uri:onf:TapiModule-TypeDefinitions";
+    prefix TapiModule-TypeDefinitions;
+    revision 2016-04-14{}
+    typedef integer {
+        type int16;
+    }
+    grouping G_Tapi_CapacityCharacteristic {
+        leaf LayerProtocolName {
+            type Tapi_LayerProtocolName;
+        }
+        leaf CapacityValue {
+            type integer;
+        }
+    }
+    typedef Tapi_Role {
+        type enumeration {
+            enum SYMMETRIC;
+            enum ROOT;
+            enum LEAF;
+        }
+    }
+    typedef Tapi_LayerProtocolName {
+        type enumeration {
+            enum ETH;
+            enum ODU;
+            enum OCH;
+            enum MPLS-TP;
+        }
+    }
+    typedef Tapi_ServiceType {
+        type enumeration {
+            enum ODUk;
+            enum EPL;
+            enum EVPL;
+            enum EPLAN;
+            enum EVPLAN;
+            enum EPTREE;
+            enum EVPTREE;
+        }
+    }
+    typedef Tapi_Signal_type {
+        type enumeration {
+            enum ODU0;
+            enum ODU1;
+            enum ODU2;
+            enum ODU2e;
+            enum ODU3;
+            enum ODU4;
+            enum ODUflex-GFP;
+            enum ODUflex-CBR;
+        }
+    }
+    typedef Tapi_PathType {
+        type enumeration {
+            enum P2P;
+            enum P2MP;
+            enum MP2MP;
+        }
+    }
+    typedef Tapi_VlanType {
+        type enumeration {
+            enum C_TAG;
+            enum S_TAG;
+            enum UN_TAG;
+        }
+    }
+    typedef Tapi_AdaptationType {
+        type enumeration {
+            enum CBR_AMP;
+            enum CBR_BMP;
+            enum ATMVP;
+            enum GFP-T;
+            enum GFP-F;
+            enum NULL;
+            enum PRBS;
+            enum RSN_AMP;
+            enum RSN_BMP;
+            enum ETHERNET_PP-OS;
+            enum CBRx;
+            enum CBRX_GMP;
+            enum ODUij;
+            enum ODUj21;
+        }
+    }
+    typedef Tapi_AccessAction {
+        type enumeration {
+            enum KEEP;
+            enum PUSH;
+            enum POP;
+            enum SWAP;
+        }
+    }
+    typedef Tapi_BroadcastType {
+        type enumeration {
+            enum MULTICAST;
+            enum BROADCAST;
+            enum UNICAST;
+        }
+    }
+    typedef Tapi_BroadcastFilteringMode {
+        type enumeration {
+            enum BLOCK;
+            enum PASS;
+        }
+    }
+    typedef Tapi_VlanPriority {
+        type enumeration {
+            enum 0;
+            enum 1;
+            enum 2;
+            enum 3;
+            enum 4;
+            enum 5;
+            enum 6;
+            enum 7;
+        }
+    }
+    typedef Tapi_ColourMode {
+        type enumeration {
+            enum COLOUR_BLIND;
+            enum COLOUR_AWARE;
+        }
+    }
+    typedef Tapi_ProtRole {
+        type enumeration {
+            enum Unprotected;
+            enum Protected;
+            enum Working;
+            enum Protecting;
+        }
+    }
+    typedef Tapi_ConnectionType {
+        type enumeration {
+            enum P2P;
+            enum P2MP;
+            enum MP2MP;
+        }
+    }
+    typedef Tapi_ConnectionDirection {
+        type enumeration {
+            enum BIDIRECTIONAL;
+            enum UNIDIRECTIONAL;
+            enum UNDEFINED_OR_UNKNOWN;
+        }
+    }
+    typedef Tapi_ProType {
+        type enumeration {
+            enum NO_PROTECTION;
+            enum 1_PLUS_1_PROTECTION;
+            enum 1_TO_1_PROTECTION;
+            enum DYNAMIC_RESTORATION;
+            enum PRE_RESTORATION;
+            enum PERMANENT_1_PLUS_1_PROTECTION;
+            enum 1_TO_1_Y_PROTECTION;
+            enum PERMANENT_1_PLUS_1_Y_PROTECTION;
+        }
+    }
+    typedef Tapi_MultiDomainType {
+        type enumeration {
+            enum END_TO_END;
+            enum PER_DOMAIN;
+        }
+    }
+    typedef Tapi_MultiLayerType {
+        type enumeration {
+            enum SINGLE_LAYER;
+            enum CROSS_LAYER;
+        }
+    }
+    typedef Tapi_PathProtType {
+        type enumeration {
+            enum WORKING;
+            enum PROTECTION;
+            enum WORK_RESTORATION;
+            enum PRO_RESTORATION;
+        }
+    }
+    typedef Tapi_RouteObjectiveFunction {
+        type enumeration {
+            enum WORKING_MIN_HOP;
+            enum WORKING_MIN_COST;
+            enum WORKING_MIN_LATENCY;
+            enum WORKING_PROTECTION_MIN_HOP;
+            enum WORKING_PROTECTION_MIN_COST;
+            enum WORKING_PROTECTION_MIN_LATENCY;
+            enum LOAD_BALANCING;
+            enum WORKING_PROTECTION_MIN_BANDWIDTH;
+            enum MAX_ACCEPT_NUMBER;
+        }
+    }
+    typedef Tapi_DiversityPolicy {
+        type enumeration {
+            enum SRLG;
+            enum SRNG;
+            enum SRG;
+            enum DOMAIN_DIVERSE;
+        }
+    }
+    typedef Tapi_NotificationType {
+        type enumeration {
+            enum OBJECT_CREATION;
+            enum OBJECT_DELETION;
+            enum VALUE_CHANGE;
+            enum STATE_CHANGE;
+        }
+    }
+    typedef Tapi_ObjectType {
+        type enumeration {
+            enum LINK;
+            enum NODE_EDGE_POINT;
+        }
+    }
+    typedef Tapi_SourceIndicator {
+        type enumeration {
+            enum RESOURCE_OPERATION;
+            enum MANAGEMENT_OPERATION;
+            enum UNKNOWN;
+        }
+    }
+    typedef Tapi_SwitchCapability {
+        type enumeration {
+            enum PORT_TRANSPARENT;
+            enum VLAN_SWITCH;
+            enum LAYER_2_SWITCH;
+        }
+    }
+    grouping G_Tapi_Capacity {
+        container capacityCharacteristicList {
+            config true;
+            uses G_Tapi_CapacityCharacteristic;
+        }
+    }
+    typedef Tapi_LinkDirection {
+        type enumeration {
+            enum BIDIRECTIONAL;
+            enum UNIDIRECTIONAL;
+            enum UNDEFINED_OR_UNKNOWN;
+        }
+    }
+    grouping G_Tapi_ProtectionType {
+        leaf proType {
+            type Tapi_ProType;
+        }
+        leaf multiDomainType {
+            type Tapi_MultiDomainType;
+        }
+        leaf multiLayerType {
+            type Tapi_MultiLayerType;
+        }
+    }
+    grouping G_Tapi_Vlan {
+        leaf vlanType {
+            type Tapi_VlanType;
+        }
+        leaf vlanIdList {
+            type string;
+        }
+    }
+    grouping G_Tapi_StateChange {
+        leaf stateName {
+            type string;
+        }
+        leaf newStateValue {
+            type string;
+        }
+        leaf oldStateValue {
+            type string;
+        }
+    }
+    grouping G_Tapi_TrafficConditioningConfiguration {
+        leaf cir {
+            type integer;
+        }
+        leaf cbs {
+            type integer;
+        }
+        leaf eir {
+            type integer;
+        }
+        leaf ebs {
+            type integer;
+        }
+        leaf colourMode {
+            type Tapi_ColourMode;
+        }
+    }
+    grouping G_Tapi_VlanSpec {
+        leaf vlanId {
+            type integer;
+        }
+        leaf vlanPriority {
+            type Tapi_VlanPriority;
+        }
+    }
+    typedef Tapi_TerminationDirection {
+        type enumeration {
+            enum SINK;
+            enum SOURCE;
+            enum BIDIRECTIONAL;
+        }
+    }
+    typedef Tapi_PortDirection {
+        type enumeration {
+            enum UNDEFINED_OR_UNKNOWN;
+            enum INPUT;
+            enum OUTPUT;
+            enum BIDIRECTIONAL;
+        }
+    }
+    typedef Tapi_SwitchType {
+        type enumeration {
+            enum UNI_SWITCH;
+            enum BI_SWITCH;
+        }
+    }
+    typedef Tapi_SwitchState {
+        type enumeration {
+            enum NORMAL;
+            enum SWITCHED;
+        }
+    }
+    typedef Tapi_SwitchReason {
+        type enumeration {
+            enum NO_SWITCH;
+            enum SF_SWITCH;
+            enum SD_SWITCH;
+            enum MANUAL_SWITCH;
+            enum FORCE_SWITCH;
+        }
+    }
+    typedef OperType {
+        type enumeration {
+            enum REVERTIVE;
+            enum NON-REVERTIVE;
+        }
+    }
+    grouping G_CostCharacteristics {
+        leaf costName {
+            type string;
+            description "The cost characteristic will related to some aspect of the TopologicalEntity (e.g. $ cost, routing weight). This aspect will be conveyed by the costName.";
+        }
+        leaf costValue {
+            type integer;
+            description "The specific cost.";
+        }
+        leaf costAlgorithm {
+            type string;
+            description "The cost may vary based upon some properties of the TopologicalEntity. The rules for the variation are conveyed by the costAlgorithm.";
+        }
+    }
+    typedef OperationalState {
+        type enumeration {
+            enum DISABLED;
+            enum ENABLED;
+        }
+    }
+    typedef AdministrativeState {
+        type enumeration {
+            enum LOCKED;
+            enum UNLOCKED;
+            enum SHUTTING_DOWN_ACTIVE;
+            enum SHUTTING_DOWN_PASSIVE;
+        }
+    }
+    typedef AdministrativeControl {
+        type enumeration {
+            enum UNLOCK;
+            enum LOCK_PASSIVE;
+            enum LOCK_ACTIVE;
+            enum LOCK_IMMEDIATE;
+        }
+    }
+    typedef LifecycleState {
+        type enumeration {
+            enum PLANNED;
+            enum POTENTIAL;
+            enum INSTALLED;
+            enum IN_CONFLICT;
+            enum PENDING_REMOVAL;
+        }
+    }
+    grouping G_QueuingLatency {
+        leaf trafficProperty {
+            type string;
+            description "The identifier of the specific traffic property to which the queuing latency applies.";
+        }
+        leaf latencyForTrafficWithProperty {
+            type string;
+            description "The specific queuing latency for the traffic property.";
+        }
+    }
+    grouping G_ValidationMechanism {
+        leaf validationMechanism {
+            type string;
+            description "Name of mechanism used to validate adjacency";
+        }
+        leaf layerProtocolAdjacencyValidated {
+            type string;
+            description "State of validatiion";
+        }
+        leaf validationRobustness {
+            type string;
+            description "Quality of validation (i.e. how likely is the stated validation to be invalid)";
+        }
+    }
+    grouping G_RiskCharacteristic {
+        leaf riskCharacteristicName {
+            type string;
+            description "The name of the risk characteristic. The characteristic may be related to a specific degree of closeness. 
+                For example a particular characteristic may apply to failures that are localized (e.g. to one side of a road) where as another characteristic may relate to failures that have a broader impact (e.g. both sides of a road that crosses a bridge).
+                Depending upon the importance of the traffic being routed different risk characteristics will be evaluated.";
+        }
+        leaf-list riskIdentifierList {
+            description "A list of the identifiers of each physical/geographic unit (with the specific risk characteristic) that is related to a segment of the TopologicalEntity.";
+            ordered-by system;
+            type string;
+            min-elements 1;
+        }
+    }
+    typedef payLoadType {
+        type enumeration {
+            enum OTU1;
+            enum OTU2;
+            enum OTU3;
+            enum OTU4;
+            enum STM-1;
+            enum STM-4;
+            enum STM-16;
+            enum STM-256;
+            enum GE;
+            enum 10GE-LAN;
+            enum 40GE;
+            enum 100GE;
+            enum 1GFC;
+            enum 4GFC;
+            enum 16GFC;
+            enum ESCON;
+            enum PKT;
+        }
+    }
+}
